@@ -1,4 +1,6 @@
+import { PlayerDTO } from '../dto/player.dto.js';
 import { TeamDTO, TeamListDTO } from '../dto/team.dto.js';
+import playerService from './player.service.js';
 
 //? FakeData -> Replace by database
 const fakeData = {
@@ -12,7 +14,18 @@ const teamService = {
 
     getById: async (teamId) => {
         const team = fakeData.teams.find(t => t.id === teamId);
-        return !!team ? new TeamDTO(team) : null;
+
+        if(!team) {
+            return null;
+        }
+
+        const players = [];
+        for(const playerId of team.player) {
+            const player = playerService.getById(playerId);
+            players.push(new PlayerDTO(player));
+        }
+
+        return new TeamDTO({ ...team, players })
     },
     
     getAll: async () => {
@@ -22,6 +35,7 @@ const teamService = {
     add: async (data) => {
         const teamAdded = {
             ...data,
+            players: [],
             id: fakeData.nextId
         };
 
@@ -51,6 +65,33 @@ const teamService = {
         }
 
         fakeData.teams.splice(teamIndex, 1);
+    },
+
+    addPlayer: async (teamId, playerId) => {
+        const team = fakeData.teams.find(t => t.id === teamId);
+        if(!team) {
+            throw new Error('Team not found');
+        }
+
+        if(team.players.some(p => p.id === playerId)) {
+            throw new Error('Player already in Team');
+        }
+
+        team.players.push(playerId);
+    },
+
+    removePlayer: async (teamId, playerId) => {
+        const team = fakeData.teams.find(t => t.id === teamId);
+        if(!team) {
+            throw new Error('Team not found');
+        }
+
+        const playerIndex = team.players.findIndex(p => p.id === playerId)
+        if(playerIndex < 0) {
+            throw new Error('Player not in Team');
+        }
+
+        team.players.splice(playerIndex, 1);
     }
 
 };

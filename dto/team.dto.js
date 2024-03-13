@@ -2,6 +2,7 @@
 /**
  * Une équipe
  * @typedef {object} TeamDTO
+ * @property {number} id
  * @property {string} name
  * @property {string} sport
  * @property {string} frequency
@@ -9,7 +10,8 @@
  */
 export class TeamDTO {
     
-    constructor({name, sport, frequency, players}) {
+    constructor({id, name, sport, frequency, players}) {
+        this.id = id;
         this.name = name;
         this.sport = sport;
         this.frequency = frequency;
@@ -20,12 +22,14 @@ export class TeamDTO {
 /**
  * Une équipe (Donnée partiel)
  * @typedef {object} TeamListDTO
+ * @property {number} id
  * @property {string} name
  * @property {string} frequency
  */
 export class TeamListDTO {
     
-    constructor({name, frequency}) {
+    constructor({id, name, frequency}) {
+        this.id = id;
         this.name = name;
         this.frequency = frequency;
     }

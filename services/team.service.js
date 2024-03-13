@@ -1,4 +1,3 @@
-import { PlayerDTO } from '../dto/player.dto.js';
 import { TeamDTO, TeamListDTO } from '../dto/team.dto.js';
 import playerService from './player.service.js';
 
@@ -20,9 +19,9 @@ const teamService = {
         }
 
         const players = [];
-        for(const playerId of team.player) {
-            const player = playerService.getById(playerId);
-            players.push(new PlayerDTO(player));
+        for(const playerId of team.players) {
+            const player = await playerService.getById(playerId);
+            players.push(player);
         }
 
         return new TeamDTO({ ...team, players })
@@ -67,7 +66,7 @@ const teamService = {
         fakeData.teams.splice(teamIndex, 1);
     },
 
-    addPlayer: async (teamId, ...playerIds) => {
+    addPlayer: async (teamId, playerIds) => {
         const team = fakeData.teams.find(t => t.id === teamId);
         if(!team) {
             throw new Error('Team not found');
@@ -77,10 +76,10 @@ const teamService = {
             throw new Error('Player already in Team');
         }
 
-        team.players.push(...playerId);
+        team.players.push(...playerIds);
     },
 
-    removePlayer: async (teamId, ...playerIds) => {
+    removePlayer: async (teamId, playerIds) => {
         const team = fakeData.teams.find(t => t.id === teamId);
         if(!team) {
             throw new Error('Team not found');

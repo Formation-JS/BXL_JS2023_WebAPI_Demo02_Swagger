@@ -3,7 +3,7 @@ import teamService from '../services/team.service.js';
 const teamController =  {
 
     getOne : async (req, res) => {
-        const teamId = req.params.id;
+        const teamId = parseInt(req.params.id);
         
         const team = await teamService.getById(teamId);
         if(!team) {
@@ -34,7 +34,7 @@ const teamController =  {
     
     update : async (req, res) => {
         // TODO Validation ?
-        const teamId = req.params.id;
+        const teamId = parseInt(req.params.id);
         const data = req.body;
         
         try {
@@ -51,7 +51,7 @@ const teamController =  {
     },
     
     remove : async (req, res) => {
-        const teamId = req.params.id;
+        const teamId = parseInt(req.params.id);
         
         try {
             await teamService.remove(teamId);
@@ -66,7 +66,7 @@ const teamController =  {
     },
     
     addPlayer : async (req, res) => {
-        const teamId = req.params.id;
+        const teamId = parseInt(req.params.id);
         const data = req.body;
 
         try {
@@ -82,7 +82,7 @@ const teamController =  {
     },
     
     removePlayer : async (req, res) => {
-        const teamId = req.params.id;
+        const teamId = parseInt(req.params.id);
         const data = req.body;
 
         try {

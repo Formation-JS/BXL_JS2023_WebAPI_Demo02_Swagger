@@ -67,31 +67,34 @@ const teamService = {
         fakeData.teams.splice(teamIndex, 1);
     },
 
-    addPlayer: async (teamId, playerId) => {
+    addPlayer: async (teamId, ...playerIds) => {
         const team = fakeData.teams.find(t => t.id === teamId);
         if(!team) {
             throw new Error('Team not found');
         }
 
-        if(team.players.some(p => p.id === playerId)) {
+        if(team.players.some(p => playerIds.includes(p))) {
             throw new Error('Player already in Team');
         }
 
-        team.players.push(playerId);
+        team.players.push(...playerId);
     },
 
-    removePlayer: async (teamId, playerId) => {
+    removePlayer: async (teamId, ...playerIds) => {
         const team = fakeData.teams.find(t => t.id === teamId);
         if(!team) {
             throw new Error('Team not found');
         }
 
-        const playerIndex = team.players.findIndex(p => p.id === playerId)
-        if(playerIndex < 0) {
-            throw new Error('Player not in Team');
-        }
+        for(const playerId of playerIds) {
 
-        team.players.splice(playerIndex, 1);
+            const playerIndex = team.players.findIndex(p => p.id === playerId)
+            if(playerIndex < 0) {
+                throw new Error('Player not in Team');
+            }
+            
+            team.players.splice(playerIndex, 1);
+        }
     }
 
 };

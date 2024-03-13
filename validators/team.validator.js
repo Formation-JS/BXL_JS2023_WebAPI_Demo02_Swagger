@@ -12,3 +12,12 @@ export const teamValidator = yup.object().shape({
     sport: yup.string().required(),
     frequency: yup.string()
 });
+
+/**
+ * Modele pour intéragir les joueurs d'une equipe
+ * @typedef {object} TeamPlayers
+ * @property {number[]} playerIds.required
+ */
+export const teamPlayersValidator = yup.object().shape({
+    playerIds: yup.array().of(yup.number()).min(1)
+});

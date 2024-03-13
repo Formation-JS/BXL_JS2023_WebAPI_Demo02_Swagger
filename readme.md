@@ -21,6 +21,7 @@ Joueurs
 
 Joueur:
 ```
+Id
 Email
 Prenom
 Nom

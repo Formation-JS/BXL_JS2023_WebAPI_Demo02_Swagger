@@ -4,20 +4,25 @@ import { PlayerDTO } from '../dto/player.dto.js';
 const fakeData = {
     players: [
         {
+            id: 1,
             email: 'della.duck@digitalcity.brussels',
             firstname: 'Della',
             lastname: 'Duck'
         }
-    ]
+    ],
+    nextId: 2
 }
 
 //? Service
 const playerService = {
 
-    get: async (email) => {
-        console.log(fakeData.players);
-        const player = fakeData.players.find(p => p.email === email);
+    getById: async (playerId) => {
+        const player = fakeData.players.find(p => p.id === playerId);
+        return !!player ? new PlayerDTO(player) : null;
+    },
 
+    getByEmail: async (email) => {
+        const player = fakeData.players.find(p => p.email === email);
         return !!player ? new PlayerDTO(player) : null;
     },
 
@@ -27,9 +32,15 @@ const playerService = {
             throw new Error('Email already exists');
         }
 
-        fakeData.players.push(data);
+        const playerAdded = {
+            ...data,
+            id: fakeData.nextId
+        };
 
-        return new PlayerDTO(data);
+        fakeData.players.push(playerAdded);
+        fakeData.nextId++;
+
+        return new PlayerDTO(playerAdded);
     },
 
     update: async (email, data) => {

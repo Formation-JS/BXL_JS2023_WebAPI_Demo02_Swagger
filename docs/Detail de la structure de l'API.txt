@@ -22,3 +22,7 @@ Permet d'éviter de tout coder dans le controller
 
   - Routes
     Aiguillage pour atteindre le controller adapté
+
+  - Middlewares
+    Extraction de traitement à réaliser dans la requete
+    Permet d'éviter de répéter le même code dans le controller, par exemple

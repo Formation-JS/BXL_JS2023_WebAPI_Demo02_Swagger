@@ -35,8 +35,7 @@ const playerController = {
      * @return 422 - Invalid data
      */
     add: async (req, res) => {
-        // TODO Validation ?
-        const data = req.body;
+        const data = req.validateData;
 
         try {
             const player = await playerService.add(data);
@@ -63,9 +62,8 @@ const playerController = {
      * @return 400 - Invalid request
      */
     update: async (req, res) => {
-        // TODO Validation ?
         const email = req.params.email;
-        const data = req.body;
+        const data = req.validateData;
 
         try {
             await playerService.update(email, data);

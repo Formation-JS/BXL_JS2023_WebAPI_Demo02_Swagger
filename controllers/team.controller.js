@@ -44,8 +44,7 @@ const teamController =  {
      * @return 422 - Invalid data
      */
     add : async (req, res) => {
-        // TODO Validation ?
-        const data = req.body;
+        const data = req.validateData;
 
         const teamAdded = await teamService.add(data);
         res.status(201)
@@ -62,9 +61,8 @@ const teamController =  {
      * @return 422 - Invalid data
      */
     update : async (req, res) => {
-        // TODO Validation ?
         const teamId = parseInt(req.params.id);
-        const data = req.body;
+        const data = req.validateData;
         
         try {
             await teamService.update(teamId, data);
@@ -111,7 +109,7 @@ const teamController =  {
      */
     addPlayer : async (req, res) => {
         const teamId = parseInt(req.params.id);
-        const data = req.body;
+        const data = req.validateData;
 
         try {
             await teamService.addPlayer(teamId, data.playerIds);
@@ -135,7 +133,7 @@ const teamController =  {
      */
     removePlayer : async (req, res) => {
         const teamId = parseInt(req.params.id);
-        const data = req.body;
+        const data = req.validateData;
 
         try {
             await teamService.remove(teamId, data.playerIds);
